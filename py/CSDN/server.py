@@ -38,17 +38,16 @@ def connection(server):
 
 #主函数
 def main():
-    if "help" in argv:
+    if len(argv) != 3:
         exit("./echo_socket_server.py [listen_ip] [listen_port]")
-    else:
-        server = socket(0x02, 0x01, 0x00)
-        server_ip = argv[1]
-        server_port = int(argv[2])
-        server.bind((server_ip,server_port))
-        server.listen(5)
+    
+    server = socket(0x02, 0x01, 0x00)
+    server_ip, server_port = argv[1], int(argv[2])
+    server.bind((server_ip, server_port))
+    server.listen(5)
     #开启一个线程，检测连接并对现有连接进行操作
-    connection_thread = threading.Thread(target = connection,args=(server,))
-    connection_thread.start()
+    c_thread = threading.Thread(target = connection,args=(server,))
+    c_thread.start()
 
 if __name__ == "__main__":
     main()
